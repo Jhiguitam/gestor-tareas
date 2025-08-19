@@ -2,12 +2,15 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Saludo from './Saludo';
 
 function App() {
   const [count, setCount] = useState(0)
+  const [Contador, setContador] = useState(0)
 
   return (
     <>
+    <Saludo nombre="Jorge" edad={25} />
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -20,6 +23,9 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button onClick={() => setContador((Contador) => Contador + 1)}>
+          Contador is {Contador}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
