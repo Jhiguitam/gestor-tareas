@@ -1,41 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Saludo from './Saludo';
+// src/App.tsx
+import { useState } from "react";
+import type { Tarea } from "./types";
+import { ListaTareas } from "./components/ListaTareas";
+import { FormularioTarea } from "./components/FormularioTarea";
 
-function App() {
-  const [count, setCount] = useState(0)
-  const [Contador, setContador] = useState(0)
+export default function App() {
+  const [tareas, setTareas] = useState<Tarea[]>([]);
+
+  const agregarTarea = (texto: string) => {
+    const nueva: Tarea = {
+      id: Date.now(),
+      texto,
+      completada: false,
+    };
+    setTareas([...tareas, nueva]);
+  };
+
+  const toggleTarea = (id: number) => {
+    setTareas(tareas.map(t =>
+      t.id === id ? { ...t, completada: !t.completada } : t
+    ));
+  };
+
+  const eliminarTarea = (id: number) => {
+    setTareas(tareas.filter(t => t.id !== id));
+  };
 
   return (
-    <>
-    <Saludo nombre="Jorge" edad={25} />
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => setContador((Contador) => Contador + 1)}>
-          Contador is {Contador}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: 20 }}>
+      <h1>Gestor de Tareas 📝</h1>
+      <FormularioTarea onAgregar={agregarTarea} />
+      <ListaTareas
+        tareas={tareas}
+        onToggle={toggleTarea}
+        onEliminar={eliminarTarea}
+      />
+    </div>
+  );
 }
-
-export default App
